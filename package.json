@@ -1,0 +1,29 @@
+{
+    "name": "biffy",
+    "displayName": "Biffy",
+    "description": "Language tools for BIF",
+    "version": "1.0.0",
+    "engines": {
+        "vscode": "^1.30.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "bif",
+            "aliases": ["BIF", "bif"],
+            "extensions": [".beml",".bxml"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "bif",
+            "scopeName": "source.bif",
+            "path": "./syntaxes/bif.tmLanguage.json"
+        }],
+        "snippets": [{
+				"language": "bif",
+				"path": "./snippets.json"
+		}]
+    }
+}
