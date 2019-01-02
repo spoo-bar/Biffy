@@ -17,6 +17,7 @@
         "type": "git",
         "url": "https://github.com/spoon611/Biffy.git"    
     },
+    "icon": "images/icon.png",
     "contributes": {
         "languages": [{
             "id": "bif",
