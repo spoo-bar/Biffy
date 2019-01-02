@@ -2,6 +2,8 @@
 
 This is the repository for VS Code extension for BIF.
 
+[![made-for-VSCode](https://img.shields.io/badge/Made%20for-VSCode-1f425f.svg)](https://code.visualstudio.com/)
+
 ## Installation 
 
 1. Open the source in VS Code.
