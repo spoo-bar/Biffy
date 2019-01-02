@@ -2,9 +2,9 @@
 
 This is the repository for VS Code extension for BIF.
 
-[![made-for-VSCode](https://img.shields.io/badge/Made%20for-VSCode-1f425f.svg)](https://code.visualstudio.com/)
+[![visual studio marketplace](https://vsmarketplacebadge.apphb.com/version-short/spoorthi.biffy.svg)](https://marketplace.visualstudio.com/items?itemName=spoorthi.biffy)
 
-## Installation 
+## Quick Start 
 
 1. Open the source in VS Code.
 2. Go to `Terminal > Run Build Task` or press `Ctrl + Shift + B`
