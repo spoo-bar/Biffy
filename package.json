@@ -2,6 +2,7 @@
     "name": "biffy",
     "displayName": "Biffy",
     "description": "Language tools for BIF",
+    "publisher": "spoorthi",
     "version": "1.0.0",
     "engines": {
         "vscode": "^1.30.0"
@@ -9,6 +10,13 @@
     "categories": [
         "Programming Languages"
     ],
+    "keywords": [
+        "BIF", "beml", "bxml"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/spoon611/Biffy.git"    
+    },
     "contributes": {
         "languages": [{
             "id": "bif",
