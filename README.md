@@ -4,7 +4,16 @@ This is the repository for VS Code extension for BIF.
 
 [![visual studio marketplace](https://vsmarketplacebadge.apphb.com/version-short/spoorthi.biffy.svg)](https://marketplace.visualstudio.com/items?itemName=spoorthi.biffy)
 
-## Quick Start 
+
+## Features
+
+* Syntax highlighting 
+* Bracket matching 
+* Block commenting (`Ctrl + K + C` and `Ctrl + K + U`)
+* Snippet completion
+
+
+## Setting up
 
 1. Open the source in VS Code.
 2. Go to `Terminal > Run Build Task` or press `Ctrl + Shift + B`
@@ -12,11 +21,12 @@ This is the repository for VS Code extension for BIF.
 4. Restart all instances of VS Code.
 5. Do the Ice Bucket challenge
 
-## Features
 
-* Syntax highlighting and Bracket matching and Folding
-* Block commenting (`Ctrl + K + C` and `Ctrl + K + U`)
-* Snippets
+## TODO
+
+* Extending snippets
+* Find all references 
+* Jump to definition 
 
 ## Requirements
 
