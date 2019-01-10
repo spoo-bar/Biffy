@@ -48,12 +48,44 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
             else {
                 let folders = this.getAllFoldersInBIFSource("C:\\Code\\Git\\Katipo\\BIF-Source", []);
                 let files = this.getBIFFiles(folders);
+                return this.getFilesWithReference(files, word);
             }
         });
         return [];
     }
 
-    private getFilesWithReference(files: string[]): string[] {
+    private getFilesWithReference(files: string[], word: string): Response[] {
+        let filesReference: Response[] = [];
+        for (let file of files) {
+            fs.readFile(file, "utf-8", (err, data) => {
+                if (!err) {
+                    if (data.includes(word)) {
+
+                        data.split("\n").forEach(function (line, i) {
+                            if (line.includes(word)) {
+                                let referenceLocation = new ReferenceLocation();
+                                referenceLocation.start = new Location();
+                                referenceLocation.start.line = i;
+                                referenceLocation.start.offset = line.indexOf(word);
+
+                                referenceLocation.end = new Location();
+                                referenceLocation.end.line = i;
+                                referenceLocation.end.offset = referenceLocation.start.offset + word.length;
+
+                                let response = new Response();
+                                response.filePath = file;
+                                response.location = referenceLocation;
+                                filesReference.push(response);
+                            }
+                        });
+                    }
+                }
+            })
+        }
+        return filesReference;
+    }
+
+    private getLocation(data: string) {
 
     }
 
@@ -111,7 +143,17 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
     }
 }
 
-interface Response {
+class Response {
     filePath: string;
     location: Proto.TextSpan;
+}
+
+class ReferenceLocation implements Proto.TextSpan {
+    start: Proto.Location;
+    end: Proto.Location;
+}
+
+class Location implements Proto.Location {
+    line: number;
+    offset: number;
 }
