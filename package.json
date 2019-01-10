@@ -11,11 +11,13 @@
         "Programming Languages"
     ],
     "keywords": [
-        "BIF", "beml", "bxml"
+        "BIF",
+        "beml",
+        "bxml"
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/spoon611/Biffy.git"    
+        "url": "https://github.com/spoon611/Biffy.git"
     },
     "activationEvents": [
         "onLanguage:bif"
@@ -23,20 +25,35 @@
     "main": "./out/src/extension",
     "icon": "images/icon.png",
     "contributes": {
-        "languages": [{
-            "id": "bif",
-            "aliases": ["BIF", "bif"],
-            "extensions": [".beml",".bxml"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "bif",
-            "scopeName": "source.bif",
-            "path": "./syntaxes/bif.tmLanguage.json"
-        }],
-        "snippets": [{
-				"language": "bif",
-				"path": "./snippets.json"
-		}]
+        "languages": [
+            {
+                "id": "bif",
+                "aliases": [
+                    "BIF",
+                    "bif"
+                ],
+                "extensions": [
+                    ".beml",
+                    ".bxml"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "bif",
+                "scopeName": "source.bif",
+                "path": "./syntaxes/bif.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "bif",
+                "path": "./snippets.json"
+            }
+        ]
+    },
+    "dependencies": {
+        "vscode": "^1.1.26"
     }
 }
