@@ -2,8 +2,9 @@ import * as vscode from 'vscode'
 import ITypeScriptServiceClient from '../typeScriptServiceClient'
 import * as typeConverters from '../utils/typeConverters';
 import * as Proto from '../protocol';
-import { readFile } from 'fs';
-
+import * as fs from 'fs';
+import * as path from 'path';
+import { deepStrictEqual } from 'assert';
 export default class BifReferenceProvider implements vscode.ReferenceProvider {
 
     public constructor(private readonly client: ITypeScriptServiceClient) { }
@@ -38,16 +39,44 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
 
     private async getReferences(filePath: string, position: vscode.Position): Promise<Response[]> {
 
-        readFile(filePath, "utf-8", (err, data) => {
+        fs.readFile(filePath, "utf-8", (err, data) => {
             if (err) throw err;
             let line = this.readLines(data)[position.line];
             let word = this.getGuidAt(line, position.character);
             if (word === "")
                 return [];
             else {
+                let folders = this.getAllFoldersInBIFSource("C:\\Code\\Git\\Katipo\\BIF-Source", []);
+                let files = this.getBIFFiles(folders);
             }
         });
         return [];
+    }
+
+    private getFilesWithReference(files: string[]): string[] {
+
+    }
+
+    private getBIFFiles(folders: string[]): string[] {
+        let files: string[] = [];
+        for (let folder of folders) {
+            let filesInFolder: string[] = fs.readdirSync(folder).filter(file => fs.statSync(path.join(folder, file)).isFile())
+            filesInFolder.forEach(file => {
+                files.push(path.join(folder, file));
+            });
+        }
+        return files;
+    }
+
+    private getAllFoldersInBIFSource(dir: string, folderList: string[]) {
+        let folders: string[] = fs.readdirSync(dir).filter(file => fs.statSync(path.join(dir, file)).isDirectory());
+        folders.forEach(folder => {
+            if (!folder.startsWith(".")) {
+                folderList.push(path.join(dir, folder));
+                return this.getAllFoldersInBIFSource(path.join(dir, folder), folderList);
+            }
+        });
+        return folderList;
     }
 
     private readLines(data: string): string[] {
@@ -76,7 +105,7 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
         return this.checkGuidValidity(guid) ? guid : "";
     }
 
-    private checkGuidValidity(guid : string) : boolean {
+    private checkGuidValidity(guid: string): boolean {
         const pattern = new RegExp('^[0-9a-z]{8}-[0-9a-z]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-z]{12}$', 'i');
         return pattern.test(guid)
     }
