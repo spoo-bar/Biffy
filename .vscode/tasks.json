@@ -9,10 +9,16 @@
             "windows": {
                 "command": "./Deploy.ps1",
             },
+            "group": "build"
+        },
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "tsc -p ./",
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
+            }
         }
     ]
 }
