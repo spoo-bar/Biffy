@@ -3,7 +3,8 @@
     "displayName": "Biffy",
     "description": "Language tools for BIF",
     "publisher": "spoorthi",
-    "version": "1.0.2",
+    "version": "1.1.0",
+    "license": "SEE LICENSE IN LICENSE",
     "engines": {
         "vscode": "^1.30.0"
     },
@@ -11,28 +12,63 @@
         "Programming Languages"
     ],
     "keywords": [
-        "BIF", "beml", "bxml"
+        "BIF",
+        "beml",
+        "bxml"
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/spoon611/Biffy.git"    
+        "url": "https://github.com/spoon611/Biffy.git"
     },
+    "activationEvents": [
+        "onLanguage:bif"
+    ],
+    "main": "./out/src/extension",
     "icon": "images/icon.png",
     "contributes": {
-        "languages": [{
-            "id": "bif",
-            "aliases": ["BIF", "bif"],
-            "extensions": [".beml",".bxml"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "bif",
-            "scopeName": "source.bif",
-            "path": "./syntaxes/bif.tmLanguage.json"
-        }],
-        "snippets": [{
-				"language": "bif",
-				"path": "./snippets.json"
-		}]
+        "languages": [
+            {
+                "id": "bif",
+                "aliases": [
+                    "BIF",
+                    "bif"
+                ],
+                "extensions": [
+                    ".beml",
+                    ".bxml"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "bif",
+                "scopeName": "source.bif",
+                "path": "./syntaxes/bif.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "bif",
+                "path": "./snippets.json"
+            }
+        ],
+        "configuration": [
+            {
+                "title": "Biffy",
+                "properties": {
+                    "conf.biffy.bifSource": {
+                        "type": "string",
+                        "default": "C:\\Code\\Git\\Katipo\\BIF-Source",
+                        "description": "The file storage path to BIF-Source folder.",
+                        "scope": "application"
+                    }
+                }
+            }
+        ]
+    },
+    "dependencies": {
+        "@types/node": "^10.12.18",
+        "vscode": "^1.1.26"
     }
 }
