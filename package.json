@@ -51,6 +51,19 @@
                 "language": "bif",
                 "path": "./snippets.json"
             }
+        ],
+        "configuration": [
+            {
+                "title": "Configure BIF-Source path",
+                "properties": {
+                    "conf.biffy.bifSource": {
+                        "type": "string",
+                        "default": "C:\\Code\\Git\\Katipo\\BIF-Source",
+                        "description": "The file storage path to BIF-Source folder. eg. C:\\Code\\Git\\Katipo\\BIF-Source",
+                        "scope": "application"
+                    }
+                }
+            }
         ]
     },
     "dependencies": {

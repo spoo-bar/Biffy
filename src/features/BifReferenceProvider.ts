@@ -40,12 +40,21 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
             if (word === "")
                 return [];
             else {
-                let folders = this.getAllFoldersInBIFSource("C:\\Code\\Git\\Katipo\\BIF-Source", []);
+                let bifSourcePath = this.getBIFSourcePath();
+                let folders = this.getAllFoldersInBIFSource(bifSourcePath, []);
                 let files = this.getBIFFiles(folders);
                 return this.getFilesWithReference(files, word);
             }
         }
         return [];
+    }
+
+    private getBIFSourcePath(): string {
+        let bifSourcePath = vscode.workspace.getConfiguration().get("conf.biffy.bifSource");
+        if(!bifSourcePath || bifSourcePath === ""){
+            bifSourcePath = vscode.workspace.rootPath;
+        }
+        return bifSourcePath.toString();
     }
 
     private getFilesWithReference(files: string[], word: string): Response[] {
@@ -56,7 +65,7 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
                 if (data.includes(word)) {
                     data.split("\n").forEach(function (line, i) {
                         if (line.includes(word)) {
-                            
+
                             let referenceLocation = new ReferenceLocation();
                             referenceLocation.start = new Location();
                             referenceLocation.start.line = i + 1;
