@@ -4,7 +4,7 @@ import * as typeConverters from '../utils/typeConverters';
 import * as Proto from '../protocol';
 import * as fs from 'fs';
 import * as path from 'path';
-import { deepStrictEqual } from 'assert';
+
 export default class BifReferenceProvider implements vscode.ReferenceProvider {
 
     public constructor(private readonly client: ITypeScriptServiceClient) { }
@@ -21,14 +21,9 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
             return [];
         }
 
-        const references = await this.getReferences(filePath, position);
-
+        const references = this.getReferences(filePath, position);
         const result: vscode.Location[] = [];
         for (const ref of references) {
-            if (!options.includeDeclaration) {
-                continue;
-            }
-
             const url = this.client.toResource(ref.filePath);
             const location = typeConverters.Location.fromTextSpan(url, ref.location);
             result.push(location);
@@ -37,10 +32,9 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
         return result;
     }
 
-    private async getReferences(filePath: string, position: vscode.Position): Promise<Response[]> {
-
-        fs.readFile(filePath, "utf-8", (err, data) => {
-            if (err) throw err;
+    private getReferences(filePath: string, position: vscode.Position): Response[] {
+        let data = fs.readFileSync(filePath, "utf-8");
+        if(data) {
             let line = this.readLines(data)[position.line];
             let word = this.getGuidAt(line, position.character);
             if (word === "")
@@ -50,43 +44,38 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
                 let files = this.getBIFFiles(folders);
                 return this.getFilesWithReference(files, word);
             }
-        });
+        }
         return [];
     }
 
     private getFilesWithReference(files: string[], word: string): Response[] {
         let filesReference: Response[] = [];
         for (let file of files) {
-            fs.readFile(file, "utf-8", (err, data) => {
-                if (!err) {
-                    if (data.includes(word)) {
+            let data = fs.readFileSync(file, "utf-8");
+            if(data) {
+                if (data.includes(word)) {
+                    data.split("\n").forEach(function (line, i) {
+                        if (line.includes(word)) {
+                            
+                            let referenceLocation = new ReferenceLocation();
+                            referenceLocation.start = new Location();
+                            referenceLocation.start.line = i + 1;
+                            referenceLocation.start.offset = line.indexOf(word);
 
-                        data.split("\n").forEach(function (line, i) {
-                            if (line.includes(word)) {
-                                let referenceLocation = new ReferenceLocation();
-                                referenceLocation.start = new Location();
-                                referenceLocation.start.line = i;
-                                referenceLocation.start.offset = line.indexOf(word);
+                            referenceLocation.end = new Location();
+                            referenceLocation.end.line = i + 1;
+                            referenceLocation.end.offset = referenceLocation.start.offset + word.length;
 
-                                referenceLocation.end = new Location();
-                                referenceLocation.end.line = i;
-                                referenceLocation.end.offset = referenceLocation.start.offset + word.length;
-
-                                let response = new Response();
-                                response.filePath = file;
-                                response.location = referenceLocation;
-                                filesReference.push(response);
-                            }
-                        });
-                    }
+                            let response = new Response();
+                            response.filePath = file;
+                            response.location = referenceLocation;
+                            filesReference.push(response);
+                        }
+                    });
                 }
-            })
+            }
         }
         return filesReference;
-    }
-
-    private getLocation(data: string) {
-
     }
 
     private getBIFFiles(folders: string[]): string[] {
