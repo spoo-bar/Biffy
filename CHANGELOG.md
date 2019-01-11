@@ -3,5 +3,10 @@ All notable changes to the "Biffy" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
-- Initial release
+
+## 1.1.0
+### Added
+* Support for Find All References and Peek References for BIF GUIDs (except Localization GUIDs)
+* Extension configuration to store BIF Source path
+ 
+
