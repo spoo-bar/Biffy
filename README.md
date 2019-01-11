@@ -9,6 +9,8 @@ This is the repository for VS Code extension for BIF.
 
 * Find all references (`Shift + Alt + F12`)
 * Peek references (`Shift + F12`)
+* Go to Definition (`F12`)
+* Peek Definition (`Alt + F12`)
 * Syntax highlighting 
 * Bracket matching 
 * Block commenting (`Ctrl + K + C` and `Ctrl + K + U`)
@@ -30,14 +32,18 @@ In case the configuration is empty, the current workspace root folder is used to
 3. Press `F5` or `Debug > Start debugging`
 4. Open the BIF-Source in the newly opened instance of vscode
 
-> Ensure typescript is installed in global scope. Else run `npm install -g typescript`
+> Ensure typescript is installed in global scope. Else run >  `npm install -g typescript`
 
 
 ## TODO
 
 * Extending snippets
-* Jump to definition
-* Icons for file types 
+* Format document source code in editor
+* Format selected lines
+* Highlight all occurences of a symbol in a document
+* Renaming symbols
+* Find all references for non guid symbols
+* ~~Icons for file types~~ [Not supported by vscode]
 
 
 ## Requirements
