@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import * as Proto from '../protocol';
+import * as Proto from './protocol';
 
 export namespace Position {
 	export const fromLocation = (tslocation: Proto.Location): vscode.Position =>
