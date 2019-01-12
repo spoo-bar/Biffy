@@ -31,6 +31,7 @@ export default class BifDefinitionProvider implements vscode.DefinitionProvider 
     }
 
     private getReference(filePath: string, position: vscode.Position): Response {
+        //TODO : read from document.getText()
         let data = fs.readFileSync(filePath, "utf-8");
         if (data) {
             let line = this.helper.readLines(data)[position.line];

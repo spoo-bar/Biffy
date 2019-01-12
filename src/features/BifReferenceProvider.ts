@@ -37,6 +37,7 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
     }
 
     private getReferences(filePath: string, position: vscode.Position): Response[] {
+        //TODO : read from document.getText()
         let data = fs.readFileSync(filePath, "utf-8");
         if(data) {
             let line = this.helper.readLines(data)[position.line];

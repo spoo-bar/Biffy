@@ -7,6 +7,8 @@ This is the repository for VS Code extension for BIF.
 
 ## Features
 
+* Format Document (`Shift + Alt + F`)
+* Format Selection (`Ctrl + K Ctrl + F`)
 * Find all references (`Shift + Alt + F12`)
 * Peek references (`Shift + F12`)
 * Go to Definition (`F12`)
@@ -38,8 +40,6 @@ In case the configuration is empty, the current workspace root folder is used to
 ## TODO
 
 * Extending snippets
-* Format document source code in editor
-* Format selected lines
 * Highlight all occurences of a symbol in a document
 * Renaming symbols
 * Find all references for non guid symbols
