@@ -3,6 +3,10 @@ All notable changes to the "Biffy" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 1.4.1
+### Changed
+* New configuration setting `conf.biffy.mappedViewColumn` added to select where the mapped view should be opened.
+
 ## 1.4.0
 ### Added 
 * Added command(`Ctrl + M`) to dynamically generate and fetch mapped file for current bif view
