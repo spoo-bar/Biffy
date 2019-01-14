@@ -29,7 +29,7 @@ In case the configuration is empty, the current workspace root folder is used to
 * conf.biffy.mapperBinPath - The path to the bin > Debug/Release folder of SI.ProArcMapper project. In case the configuration is empty, it will not be possible to perform on-the-fly mapping of BIF views
 > eg `C:\Code\Git\Katipo\SI.ProArcMapper\bin\Debug`
 
-
+![settings image](images/settings.png "Settings image")
 
 ## Setup - Development
 
