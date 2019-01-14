@@ -3,7 +3,7 @@
     "displayName": "Biffy",
     "description": "Language tools for BIF",
     "publisher": "spoorthi",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "license": "SEE LICENSE IN LICENSE",
     "engines": {
         "vscode": "^1.30.0"
@@ -21,7 +21,8 @@
         "url": "https://github.com/spoon611/Biffy.git"
     },
     "activationEvents": [
-        "onLanguage:bif"
+        "onLanguage:bif",
+        "onCommand:biffy.mapObject"
     ],
     "main": "./out/src/extension",
     "icon": "images/icon.png",
@@ -62,13 +63,32 @@
                         "default": "C:\\Code\\Git\\Katipo\\BIF-Source",
                         "description": "The file storage path to BIF-Source folder.",
                         "scope": "application"
+                    },
+                    "conf.biffy.mapperBinPath": {
+                        "type":"string",
+                        "default": "C:\\Code\\Git\\Katipo\\SI.ProArcMapper\\bin\\Debug",
+                        "description": "The bin path to SI.ProArcMapper",
+                        "scope": "application"
                     }
                 }
+            }
+        ],
+        "commands": [
+            {
+                "command": "biffy.mapObject",
+                "title": "Map Object"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "biffy.mapObject",
+                "key": "ctrl+m"
             }
         ]
     },
     "dependencies": {
         "@types/node": "^10.12.18",
+        "node-powershell": "^3.3.1",
         "vkbeautify": "^0.99.3",
         "vscode": "^1.1.26"
     }

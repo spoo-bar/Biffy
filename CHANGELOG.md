@@ -3,6 +3,9 @@ All notable changes to the "Biffy" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 1.4.0
+### Added 
+* Added command(`Ctrl + M`) to dynamically generate and fetch mapped file for current bif view
 
 ## 1.3.0
 ### Added
