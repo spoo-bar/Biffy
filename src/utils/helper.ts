@@ -46,6 +46,14 @@ export default class Helper {
         return mappedObj;
     }
 
+    public getViewColumn() : vscode.ViewColumn {
+        let mappedViewColumn = vscode.workspace.getConfiguration().get("conf.biffy.mappedViewColumn").toString();
+        if(mappedViewColumn.toLowerCase() === "active") {
+            return vscode.ViewColumn.Active;
+        }
+        return vscode.ViewColumn.Beside;
+    }
+
     public getBIFSourcePath(): string {
         let bifSourcePath = vscode.workspace.getConfiguration().get("conf.biffy.bifSource");
         if (!bifSourcePath || bifSourcePath === "") {

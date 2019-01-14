@@ -25,6 +25,10 @@ export default class BifMapObject {
         return null;
     }
 
+    public getMappedViewColumn(): vscode.ViewColumn {
+        return this.helper.getViewColumn();
+    }
+
     private getObjectGuid(fileName: string): string {
         const fileNameSplit = fileName.split(".");
         if (fileNameSplit) {

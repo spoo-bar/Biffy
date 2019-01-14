@@ -37,7 +37,7 @@ export function activate(context: vscode.ExtensionContext): void {
                 if(out) {
                     const document = vscode.workspace.openTextDocument({ language: "bif", content: out});
                     document.then(doc => {
-                        vscode.window.showTextDocument(doc, vscode.ViewColumn.Active, false);
+                        vscode.window.showTextDocument(doc, bifMapObject.getMappedViewColumn(), false);
                     })
                 };
             }).catch(err => {

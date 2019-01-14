@@ -3,7 +3,7 @@
     "displayName": "Biffy",
     "description": "Language tools for BIF",
     "publisher": "spoorthi",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "license": "SEE LICENSE IN LICENSE",
     "engines": {
         "vscode": "^1.30.0"
@@ -68,6 +68,16 @@
                         "type":"string",
                         "default": "C:\\Code\\Git\\Katipo\\SI.ProArcMapper\\bin\\Debug",
                         "description": "The bin path to SI.ProArcMapper",
+                        "scope": "application"
+                    },
+                    "conf.biffy.mappedViewColumn": {
+                        "type":"string",
+                        "enum": [
+                            "Active",
+                            "Beside"
+                        ],
+                        "default": "Beside",
+                        "description": "The column to open mapped bif view in.",
                         "scope": "application"
                     }
                 }

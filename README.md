@@ -25,9 +25,10 @@ Before using the extension, it is recommended to set up the following
 Go to `File > Preferences > Settings` and in the settings for Biffy configure these values
 * conf.biffy.bifSource - The path to BIF Source.
 In case the configuration is empty, the current workspace root folder is used to find the required references.
-> eg `C:\Code\Git\Katipo\BIF-Source`
+> eg C:\Code\Git\Katipo\BIF-Source
 * conf.biffy.mapperBinPath - The path to the bin > Debug/Release folder of SI.ProArcMapper project. In case the configuration is empty, it will not be possible to perform on-the-fly mapping of BIF views
-> eg `C:\Code\Git\Katipo\SI.ProArcMapper\bin\Debug`
+> eg C:\Code\Git\Katipo\SI.ProArcMapper\bin\Debug
+* conf.biffy.mappedViewColumn - Selecting *Active* opens the mapped view in the same editor window as the current one. Selecting *Beside* opens the mapped view in the editor column next to the active window.
 
 ![settings image](images/settings.png "Settings image")
 
