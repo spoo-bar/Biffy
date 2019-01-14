@@ -21,11 +21,14 @@ This is the repository for VS Code extension for BIF.
 
 
 ## Configuration
-Before using the extension, it is recommended to set up the BIF Source Path
-* conf.biffy.bifSource -
-Go to `File > Preferences > Settings` and in the settings for Biffy give the path to your BIF-Source
-
+Before using the extension, it is recommended to set up the following
+Go to `File > Preferences > Settings` and in the settings for Biffy configure these values
+* conf.biffy.bifSource - The path to BIF Source.
 In case the configuration is empty, the current workspace root folder is used to find the required references.
+> eg `C:\Code\Git\Katipo\BIF-Source`
+* conf.biffy.mapperBinPath - The path to the bin > Debug/Release folder of SI.ProArcMapper project. In case the configuration is empty, it will not be possible to perform on-the-fly mapping of BIF views
+> eg `C:\Code\Git\Katipo\SI.ProArcMapper\bin\Debug`
+
 
 
 ## Setup - Development
