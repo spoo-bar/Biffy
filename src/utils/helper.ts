@@ -46,9 +46,9 @@ export default class Helper {
         return mappedObj;
     }
 
-    public getViewColumn() : vscode.ViewColumn {
+    public getViewColumn(): vscode.ViewColumn {
         let mappedViewColumn = vscode.workspace.getConfiguration().get("conf.biffy.mappedViewColumn").toString();
-        if(mappedViewColumn.toLowerCase() === "active") {
+        if (mappedViewColumn.toLowerCase() === "active") {
             return vscode.ViewColumn.Active;
         }
         return vscode.ViewColumn.Beside;
@@ -62,9 +62,9 @@ export default class Helper {
         return bifSourcePath.toString();
     }
 
-    public getMapperBinPath() : string {
+    public getMapperBinPath(): string {
         let binPath = vscode.workspace.getConfiguration().get("conf.biffy.mapperBinPath");
-        if(!binPath || binPath.toString().length == 0) {
+        if (!binPath || binPath.toString().length == 0) {
             throw Error("Bin path for mapper has not been configured.");
         }
         return binPath.toString();
@@ -101,22 +101,19 @@ export default class Helper {
         return lines;
     }
 
-    public getGuidAt(data: string, position: number): string {
-        if (data[position] == "\"") {
-            position = position - 1;
+    public getWordAtPosition(data: string, position: number): string {
+        let word: string = this.getWordBetween(data, position, "\"", "\""); // Word between double quotes
+        if (!this.checkWordValidity(word)) { 
+            word = this.getWordBetween(data, position, ">", "<"); // Word between > <
+            if (!this.checkWordValidity(word)) {
+                word = this.getWordBetween(data, position, ">", "."); // Word between > .
+                if (!this.checkWordValidity(word)) {
+                    word = this.getWordBetween(data, position, "(", ","); // Word between ( ,
+                }
+            }
         }
 
-        if (position < 0 || position >= data.length - 1 || data[position] == "\"") {
-            return "";
-        }
-
-        let guid = "";
-        for (; position > 0 && data[position - 1] != "\""; position--) { }
-        for (; position < data.length && data[position] != "\""; position++) {
-            guid += data[position];
-        }
-
-        return this.checkGuidValidity(guid) ? guid : "";
+        return word;
     }
 
     public checkGuidValidity(guid: string): boolean {
@@ -124,4 +121,32 @@ export default class Helper {
         return pattern.test(guid)
     }
 
+    private getWordBetween(data: string, position: number, startsWith: string, endsWith: string): string {
+        if (data[position] == startsWith) {
+            position = position - 1;
+        }
+        if (position < 0 || position >= data.length - 1 || data[position] == endsWith) {
+            return "";
+        }
+
+        let word = "";
+        for (; position > 0 && data[position - 1] != startsWith; position--) { }
+        for (; position < data.length && data[position] != endsWith; position++) {
+            word += data[position];
+        }
+
+        return word;
+    }
+
+    private checkWordValidity(word: string): boolean {
+        if (word.endsWith("\\r") || word.endsWith("\\n")) {
+            return false;
+        }
+        const regex = /^[\w-]+$/gm;
+        const match = regex.exec(word);
+        if (match) {
+            return true;
+        }
+        return false
+    }
 }

@@ -3,6 +3,11 @@ All notable changes to the "Biffy" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 1.5
+### Changed
+* Support for Find All References and Go to Definition for non GUID texts
+* Adding docs for key bindings 
+
 ## 1.4.1
 ### Changed
 * New configuration setting `conf.biffy.mappedViewColumn` added to select where the mapped view should be opened.

@@ -3,7 +3,7 @@
     "displayName": "Biffy",
     "description": "Language tools for BIF",
     "publisher": "spoorthi",
-    "version": "1.4.1",
+    "version": "1.5.0",
     "license": "SEE LICENSE IN LICENSE",
     "engines": {
         "vscode": "^1.30.0"
@@ -86,7 +86,7 @@
         "commands": [
             {
                 "command": "biffy.mapObject",
-                "title": "Map Object"
+                "title": "Generate Merged Preview"
             }
         ],
         "keybindings": [

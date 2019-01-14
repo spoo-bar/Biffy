@@ -24,7 +24,7 @@ export default class BifDocumentFormatter implements vscode.DocumentFormattingEd
         : vscode.ProviderResult<vscode.TextEdit[]> {
 
         const fileExtension = path.extname(document.fileName);
-        if (document.languageId !== "bif") {
+        if (document.languageId === "bif") {
             let selectedText = document.getText(range);
             let formattedText = vkbeautify.xml(selectedText);
             return [vscode.TextEdit.replace(range, formattedText)];
