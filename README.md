@@ -15,12 +15,13 @@ This is the repository for VS Code extension for BIF.
 * Peek Definition (`Alt + F12`)
 * Map current view (`Ctrl + M`)
 * Syntax highlighting 
-* Bracket matching 
 * Block commenting (`Ctrl + K + C` and `Ctrl + K + U`)
 * Snippet completion
 
 
 ## Configuration
+
+### Settings
 Before using the extension, it is recommended to set up the following
 Go to `File > Preferences > Settings` and in the settings for Biffy configure these values
 * conf.biffy.bifSource - The path to BIF Source.
@@ -31,6 +32,12 @@ In case the configuration is empty, the current workspace root folder is used to
 * conf.biffy.mappedViewColumn - Selecting *Active* opens the mapped view in the same editor window as the current one. Selecting *Beside* opens the mapped view in the editor column next to the active window.
 
 ![settings image](images/settings.png "Settings image")
+
+### Key Bindings
+* biffy.mapObject - Generates a merged preview of the current active document.
+Default is `Ctrl + M`
+
+![keybindings image](images/keyBindings.png "Key bindings image")
 
 ## Setup - Development
 
@@ -47,7 +54,6 @@ In case the configuration is empty, the current workspace root folder is used to
 * Extending snippets
 * Highlight all occurences of a symbol in a document
 * Renaming symbols
-* Find all references for non guid symbols
 * ~~Icons for file types~~ [Not supported by vscode]
 
 
