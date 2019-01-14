@@ -101,7 +101,7 @@ export default class Helper {
         return lines;
     }
 
-    public getGuidAt(data: string, position: number): string {
+    public getWordAtPosition(data: string, position: number): string {
         if (data[position] == "\"") {
             position = position - 1;
         }
@@ -110,13 +110,12 @@ export default class Helper {
             return "";
         }
 
-        let guid = "";
+        let word = "";
         for (; position > 0 && data[position - 1] != "\""; position--) { }
         for (; position < data.length && data[position] != "\""; position++) {
-            guid += data[position];
+            word += data[position];
         }
-
-        return this.checkGuidValidity(guid) ? guid : "";
+        return word;
     }
 
     public checkGuidValidity(guid: string): boolean {

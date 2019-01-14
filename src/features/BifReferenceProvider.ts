@@ -20,15 +20,10 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
         token: vscode.CancellationToken)
         : Promise<vscode.Location[]> {
 
-        const filePath = this.client.toOpenedFilePath(document);
-        if (!filePath) {
-            return [];
-        }
-
-        const references = this.getReferences(filePath, position);
+        const references = this.getReferences(document, position);
         const result: vscode.Location[] = [];
         for (const ref of references) {
-            const url = this.client.toResource(ref.filePath);
+            let url : vscode.Uri = this.client.toResource(ref.filePath, document);            
             const location = typeConverters.Location.fromTextSpan(url, ref.location);
             result.push(location);
         }
@@ -36,22 +31,49 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
         return result;
     }
 
-    private getReferences(filePath: string, position: vscode.Position): Response[] {
-        //TODO : read from document.getText()
-        let data = fs.readFileSync(filePath, "utf-8");
+    private getReferences(document: vscode.TextDocument, position: vscode.Position): Response[] {
+        let data = document.getText();
         if (data) {
             let line = this.helper.readLines(data)[position.line];
-            let word = this.helper.getGuidAt(line, position.character);
-            if (word === "")
-                return [];
-            else {
+            let word = this.helper.getWordAtPosition(line, position.character);
+            if (word !== "") {
                 let bifSourcePath = this.helper.getBIFSourcePath();
-                let folders = this.helper.getAllFoldersInBIFSource(bifSourcePath, []);
-                let files = this.helper.getBIFFiles(folders);
-                return this.getFilesWithReference(files, word);
+
+                if (this.helper.checkGuidValidity(word)) {
+                    let folders = this.helper.getAllFoldersInBIFSource(bifSourcePath, []);
+                    let files = this.helper.getBIFFiles(folders);
+                    return this.getFilesWithReference(files, word);
+                }
+                else {
+                    return this.getWordReferences(data, word, this.client.toOpenedFilePath(document));
+                }
             }
         }
         return [];
+    }
+
+    private getWordReferences(data: string, word: string, filePath: string): Response[] {
+        let positionReference: Response[] = [];
+        if (data.includes(word)) {
+            data.split("\n").forEach(function (line, i) {
+                if (line.includes(word)) {
+                    let referenceLocation = new ReferenceLocation();
+                    referenceLocation.start = new Location();
+                    referenceLocation.start.line = i + 1;
+                    referenceLocation.start.offset = line.indexOf(word) + 1;
+
+                    referenceLocation.end = new Location();
+                    referenceLocation.end.line = i + 1;
+                    referenceLocation.end.offset = referenceLocation.start.offset + word.length;
+
+                    let response = new Response();
+                    response.filePath = filePath;
+                    response.location = referenceLocation;
+                    positionReference.push(response);
+                }
+            });
+        }
+        return positionReference;
     }
 
     private getFilesWithReference(files: string[], word: string): Response[] {
@@ -62,11 +84,10 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
                 if (data.includes(word)) {
                     data.split("\n").forEach(function (line, i) {
                         if (line.includes(word)) {
-
                             let referenceLocation = new ReferenceLocation();
                             referenceLocation.start = new Location();
                             referenceLocation.start.line = i + 1;
-                            referenceLocation.start.offset = line.indexOf(word);
+                            referenceLocation.start.offset = line.indexOf(word) + 1;
 
                             referenceLocation.end = new Location();
                             referenceLocation.end.line = i + 1;

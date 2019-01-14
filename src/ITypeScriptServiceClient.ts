@@ -22,5 +22,5 @@ export interface ITypeScriptServiceClient {
     /**
      * Convert a path to a resource.
      */
-    toResource(filepath: string): vscode.Uri;
+    toResource(filepath: string, document: vscode.TextDocument): vscode.Uri;
 }

@@ -24,7 +24,10 @@ export default class TypeScriptServiceClient implements ITypeScriptServiceClient
         return this.toPath(document.uri) || undefined;
     }
 
-    public toResource(filepath: string): vscode.Uri {
+    public toResource(filepath: string, document: vscode.TextDocument): vscode.Uri {
+        if(document.uri.scheme === "untitled") { // when trying to find references in a file which isnt saved
+            return document.uri;
+        }
         let resource = vscode.Uri.file(filepath);
         return resource;
     }
