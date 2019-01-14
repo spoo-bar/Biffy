@@ -19,20 +19,16 @@ export default class BifDefinitionProvider implements vscode.DefinitionProvider 
         token: vscode.CancellationToken)
         : Promise<vscode.Location> {
 
-        const filePath = this.client.toOpenedFilePath(document);
-        if (filePath) {
-            const reference = this.getReference(filePath, position);
-            if (reference) {
-                const url = this.client.toResource(reference.filePath);
-                const location: vscode.Location = typeConverters.Location.fromTextSpan(url, reference.location);
-                return location;
-            }
+        const reference = this.getReference(document, position);
+        if (reference) {
+            const url = this.client.toResource(reference.filePath);
+            const location: vscode.Location = typeConverters.Location.fromTextSpan(url, reference.location);
+            return location;
         }
     }
 
-    private getReference(filePath: string, position: vscode.Position): Response {
-        //TODO : read from document.getText()
-        let data = fs.readFileSync(filePath, "utf-8");
+    private getReference(document: vscode.TextDocument, position: vscode.Position): Response {
+        let data = document.getText();
         if (data) {
             let line = this.helper.readLines(data)[position.line];
             let word = this.helper.getGuidAt(line, position.character);
