@@ -21,7 +21,8 @@
         "url": "https://github.com/spoon611/Biffy.git"
     },
     "activationEvents": [
-        "onLanguage:bif"
+        "onLanguage:bif",
+        "onCommand:biffy.mapObject"
     ],
     "main": "./out/src/extension",
     "icon": "images/icon.png",
@@ -64,6 +65,18 @@
                         "scope": "application"
                     }
                 }
+            }
+        ],
+        "commands": [
+            {
+                "command": "biffy.mapObject",
+                "title": "Map Object"
+            }
+        ],
+        "keybindings":[
+            {
+                "command": "biffy.mapObject",
+                "key": "ctrl+m"
             }
         ]
     },
