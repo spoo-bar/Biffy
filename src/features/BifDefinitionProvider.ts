@@ -21,7 +21,7 @@ export default class BifDefinitionProvider implements vscode.DefinitionProvider 
 
         const reference = this.getReference(document, position);
         if (reference) {
-            const url = this.client.toResource(reference.filePath);
+            const url = this.client.toResource(reference.filePath, document);
             const location: vscode.Location = typeConverters.Location.fromTextSpan(url, reference.location);
             return location;
         }
@@ -31,17 +31,49 @@ export default class BifDefinitionProvider implements vscode.DefinitionProvider 
         let data = document.getText();
         if (data) {
             let line = this.helper.readLines(data)[position.line];
-            let word = this.helper.getGuidAt(line, position.character);
+            let word = this.helper.getWordAtPosition(line, position.character);
+
             if (word !== "") {
                 let bifSourcePath = this.helper.getBIFSourcePath();
-                let folders = this.helper.getAllFoldersInBIFSource(bifSourcePath, []);
-                let files = this.helper.getBIFFiles(folders);
-                return this.getFileWithReference(files, word);
+                if (this.helper.checkGuidValidity(word)) {
+                    let folders = this.helper.getAllFoldersInBIFSource(bifSourcePath, []);
+                    let files = this.helper.getBIFFiles(folders);
+                    return this.getFileWithGuidReference(files, word);
+                }
+                else {
+                    return this.getPositionWithWordReference(data, word, this.client.toOpenedFilePath(document));
+                }
             }
         }
     }
 
-    private getFileWithReference(files: string[], word: string): Response {
+    private getPositionWithWordReference(data: string, word: string, filePath: string): Response {
+        let positionReference: Response;
+        if (data.includes(word)) {
+            data.split("\n").forEach(function (line, i) {
+                if (line.includes(word)) {
+                    if ('id="' + word + '"') {
+                        let referenceLocation = new ReferenceLocation();
+                        referenceLocation.start = new Location();
+                        referenceLocation.start.line = i + 1;
+                        referenceLocation.start.offset = line.indexOf(word) + 1;
+
+                        referenceLocation.end = new Location();
+                        referenceLocation.end.line = i + 1;
+                        referenceLocation.end.offset = referenceLocation.start.offset + word.length;
+
+                        positionReference = new Response();
+                        positionReference.filePath = filePath;
+                        positionReference.location = referenceLocation;
+                        return;
+                    }
+                }
+            });
+        }
+        return positionReference;
+    }
+
+    private getFileWithGuidReference(files: string[], word: string): Response {
         let fileReference: Response;
         for (let file of files) {
             let data = fs.readFileSync(file, "utf-8");
@@ -53,7 +85,7 @@ export default class BifDefinitionProvider implements vscode.DefinitionProvider 
                                 let referenceLocation = new ReferenceLocation();
                                 referenceLocation.start = new Location();
                                 referenceLocation.start.line = i + 1;
-                                referenceLocation.start.offset = line.indexOf(word);
+                                referenceLocation.start.offset = line.indexOf(word) + 1;
 
                                 referenceLocation.end = new Location();
                                 referenceLocation.end.line = i + 1;
