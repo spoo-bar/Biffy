@@ -33,11 +33,6 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand('biffy.mapObject', async () => {
         if (vscode.window.activeTextEditor) {
             const bifMapObject = new BifMapObject();
-            // const mappedDocument = await bifMapObject.getMappedObject(vscode.window.activeTextEditor.document);
-            // if (mappedDocument) {
-            //     vscode.window.showTextDocument(mappedDocument, vscode.ViewColumn.Active, false);
-            //     vscode.workspace.openTextDocument({ language: "bif", content: "" })
-            // }
             bifMapObject.getMappedObject(vscode.window.activeTextEditor.document).then(out => {
                 if(out) {
                     const document = vscode.workspace.openTextDocument({ language: "bif", content: out});

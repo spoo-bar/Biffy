@@ -56,7 +56,7 @@ export default class Helper {
 
     public getMapperBinPath() : string {
         let binPath = vscode.workspace.getConfiguration().get("conf.biffy.mapperBinPath");
-        if(!binPath) {
+        if(!binPath || binPath.toString().length == 0) {
             throw Error("Bin path for mapper has not been configured.");
         }
         return binPath.toString();
