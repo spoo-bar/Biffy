@@ -13,6 +13,7 @@ This is the repository for VS Code extension for BIF.
 * Peek references (`Shift + F12`)
 * Go to Definition (`F12`)
 * Peek Definition (`Alt + F12`)
+* Map current view (`Ctrl + M`)
 * Syntax highlighting 
 * Bracket matching 
 * Block commenting (`Ctrl + K + C` and `Ctrl + K + U`)

@@ -6,18 +6,21 @@ import Helper from '../utils/helper';
 export default class BifMapObject {
 
     private helper: Helper;
+    private bifSourcePath: string;
+    private assemblyPath: string;
+
     public constructor() {
         this.helper = new Helper();
+        this.bifSourcePath = this.helper.getBIFSourcePath();
+        this.assemblyPath = this.helper.getMapperBinPath();
     }
 
-    public async getMappedObject(currentDocument: vscode.TextDocument): Promise<vscode.TextDocument> {
-
+    public async getMappedObject(currentDocument: vscode.TextDocument): Promise<string> {
+        
         const fileName = path.basename(currentDocument.fileName);
-        const objectGuid = this.getObjectGuid(fileName);
-        if (objectGuid) {
-            const mappedFilePath = path.join(this.helper.getBIFSourcePath(), "mapped", objectGuid + ".bxml");
-            const mappedFile = await vscode.workspace.openTextDocument(mappedFilePath);
-            return mappedFile;
+        const objectId = this.getObjectGuid(fileName);
+        if (objectId) {
+            return this.helper.runMappingOnObject(this.assemblyPath, this.bifSourcePath, objectId);
         }
         return null;
     }

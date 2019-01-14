@@ -1,18 +1,68 @@
 import * as vscode from 'vscode'
 import * as fs from 'fs';
 import * as path from 'path';
+import * as shell from 'node-powershell';
+import * as vkbeautify from 'vkbeautify';
 
 export default class Helper {
 
+    public runMappingOnObject(assemblyFolderPath: string, bifSourcePath: string, objectId: string): Promise<string> {
+
+        const setLocationCommand = 'Set-Location ' + assemblyFolderPath;
+        const loadAssemblyCommand = 'Add-Type -Path "SI.Portal.BusinessIntegration.Definition.ObjectCore.dll"';
+        const initializeFileServiceCommand = '[SI.Portal.BusinessIntegration.Definition.ObjectCore.FileService]:: Initialize("' + bifSourcePath + '", $null, $null)';
+        const mapObjectCommand = 'Write-Output (New-Object -TypeName SI.Portal.BusinessIntegration.Definition.ObjectCore.MergeObject -ArgumentList @("' + objectId + '", $null, $true, $false)).MergedXml';
+
+        let ps = new shell({
+            debugMsg: false
+        });
+        const mappedObj = new Promise<string>(function (resolve, reject) {
+            ps.addCommand(setLocationCommand).then(out => { });
+            ps.invoke().then(output => {
+                ps.addCommand(loadAssemblyCommand).then(out => { });
+                ps.invoke().then(output => {
+                    ps.addCommand(initializeFileServiceCommand).then(out => { });
+                    ps.invoke().then(output => {
+                        ps.addCommand(mapObjectCommand).then(out => { })
+                        ps.invoke().then(output => {
+                            resolve(vkbeautify.xml(output));
+                        }).catch(err => {
+                            ps.dispose();
+                            reject(err);
+                        });
+                    }).catch(err => {
+                        ps.dispose();
+                        reject(err);
+                    });
+                }).catch(err => {
+                    ps.dispose();
+                    reject(err);
+                })
+            }).catch(err => {
+                ps.dispose();
+                reject(err);
+            });
+        });
+        return mappedObj;
+    }
+
     public getBIFSourcePath(): string {
         let bifSourcePath = vscode.workspace.getConfiguration().get("conf.biffy.bifSource");
-        if(!bifSourcePath || bifSourcePath === ""){
+        if (!bifSourcePath || bifSourcePath === "") {
             bifSourcePath = vscode.workspace.rootPath;
         }
         return bifSourcePath.toString();
     }
 
-    
+    public getMapperBinPath() : string {
+        let binPath = vscode.workspace.getConfiguration().get("conf.biffy.mapperBinPath");
+        if(!binPath) {
+            throw Error("Bin path for mapper has not been configured.");
+        }
+        return binPath.toString();
+    }
+
+
     public getBIFFiles(folders: string[]): string[] {
         let files: string[] = [];
         for (let folder of folders) {

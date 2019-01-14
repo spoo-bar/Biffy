@@ -11,7 +11,7 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
 
     public constructor(private readonly client: ITypeScriptServiceClient) {
         this.helper = new Helper();
-     }
+    }
 
     public async provideReferences(
         document: vscode.TextDocument,
@@ -39,7 +39,7 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
     private getReferences(filePath: string, position: vscode.Position): Response[] {
         //TODO : read from document.getText()
         let data = fs.readFileSync(filePath, "utf-8");
-        if(data) {
+        if (data) {
             let line = this.helper.readLines(data)[position.line];
             let word = this.helper.getGuidAt(line, position.character);
             if (word === "")
@@ -52,13 +52,13 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
             }
         }
         return [];
-    }    
+    }
 
     private getFilesWithReference(files: string[], word: string): Response[] {
         let filesReference: Response[] = [];
         for (let file of files) {
             let data = fs.readFileSync(file, "utf-8");
-            if(data) {
+            if (data) {
                 if (data.includes(word)) {
                     data.split("\n").forEach(function (line, i) {
                         if (line.includes(word)) {
