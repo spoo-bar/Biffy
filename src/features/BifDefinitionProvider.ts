@@ -52,7 +52,7 @@ export default class BifDefinitionProvider implements vscode.DefinitionProvider 
         if (data.includes(word)) {
             data.split("\n").forEach(function (line, i) {
                 if (line.includes(word)) {
-                    if ('id="' + word + '"') {
+                    if (line.includes('id="' + word + '"')) {
                         let referenceLocation = new ReferenceLocation();
                         referenceLocation.start = new Location();
                         referenceLocation.start.line = i + 1;
