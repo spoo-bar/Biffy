@@ -31,7 +31,7 @@ export default class BifDefinitionProvider implements vscode.DefinitionProvider 
         let data = document.getText();
         if (data) {
             let line = this.helper.readLines(data)[position.line];
-            let word = this.helper.getWordAtPosition(line, position.character);
+            let word = this.helper.getGuidAtPosition(line, position.character);
 
             if (word !== "") {
                 let bifSourcePath = this.helper.getBIFSourcePath();

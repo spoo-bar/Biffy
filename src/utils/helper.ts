@@ -101,16 +101,10 @@ export default class Helper {
         return lines;
     }
 
-    public getWordAtPosition(data: string, position: number): string {
+    public getGuidAtPosition(data: string, position: number): string {
         let word: string = this.getWordBetween(data, position, "\"", "\""); // Word between double quotes
         if (!this.checkWordValidity(word)) { 
-            word = this.getWordBetween(data, position, ">", "<"); // Word between > <
-            if (!this.checkWordValidity(word)) {
-                word = this.getWordBetween(data, position, ">", "."); // Word between > .
-                if (!this.checkWordValidity(word)) {
-                    word = this.getWordBetween(data, position, "(", ","); // Word between ( ,
-                }
-            }
+            word = this.getWordBetween(data, position, "(", ","); // Word between ( ,
         }
 
         return word;

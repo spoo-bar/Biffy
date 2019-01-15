@@ -23,7 +23,7 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
         const references = this.getReferences(document, position);
         const result: vscode.Location[] = [];
         for (const ref of references) {
-            let url : vscode.Uri = this.client.toResource(ref.filePath, document);            
+            let url: vscode.Uri = this.client.toResource(ref.filePath, document);
             const location = typeConverters.Location.fromTextSpan(url, ref.location);
             result.push(location);
         }
@@ -35,18 +35,17 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
         let data = document.getText();
         if (data) {
             let line = this.helper.readLines(data)[position.line];
-            let word = this.helper.getWordAtPosition(line, position.character);
-            if (word !== "") {
-                let bifSourcePath = this.helper.getBIFSourcePath();
+            let guid = this.helper.getGuidAtPosition(line, position.character);
+            let bifSourcePath = this.helper.getBIFSourcePath();
 
-                if (this.helper.checkGuidValidity(word)) {
-                    let folders = this.helper.getAllFoldersInBIFSource(bifSourcePath, []);
-                    let files = this.helper.getBIFFiles(folders);
-                    return this.getFilesWithReference(files, word);
-                }
-                else {
-                    return this.getWordReferences(data, word, this.client.toOpenedFilePath(document));
-                }
+            if (this.helper.checkGuidValidity(guid)) {
+                let folders = this.helper.getAllFoldersInBIFSource(bifSourcePath, []);
+                let files = this.helper.getBIFFiles(folders);
+                return this.getFilesWithReference(files, guid);
+            } 
+            else {
+                let word = document.getText(document.getWordRangeAtPosition(position));
+                return this.getWordReferences(data, word, this.client.toOpenedFilePath(document));
             }
         }
         return [];
