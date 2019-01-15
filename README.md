@@ -36,6 +36,8 @@ In case the configuration is empty, the current workspace root folder is used to
 ### Key Bindings
 * biffy.mapObject - Generates a merged preview of the current active document.
 Default is `Ctrl + M`
+* biffy.generateGuid - Generate GUIDs.
+Default us `Ctrl + Alt + G`
 
 ![keybindings image](images/keyBindings.png "Key bindings image")
 
@@ -47,14 +49,6 @@ Default is `Ctrl + M`
 4. Open the BIF-Source in the newly opened instance of vscode
 
 > Ensure typescript is installed in global scope. Else run >  `npm install -g typescript`
-
-
-## TODO
-
-* Extending snippets
-* Highlight all occurences of a symbol in a document
-* Renaming symbols
-* ~~Icons for file types~~ [Not supported by vscode]
 
 
 ## Requirements
