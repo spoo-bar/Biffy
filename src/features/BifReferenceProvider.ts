@@ -36,9 +36,9 @@ export default class BifReferenceProvider implements vscode.ReferenceProvider {
         if (data) {
             let line = this.helper.readLines(data)[position.line];
             let guid = this.helper.getGuidAtPosition(line, position.character);
-            let bifSourcePath = this.helper.getBIFSourcePath();
 
             if (this.helper.checkGuidValidity(guid)) {
+                let bifSourcePath = this.helper.getBIFSourcePath();
                 let folders = this.helper.getAllFoldersInBIFSource(bifSourcePath, []);
                 let files = this.helper.getBIFFiles(folders);
                 return this.getFilesWithReference(files, guid);

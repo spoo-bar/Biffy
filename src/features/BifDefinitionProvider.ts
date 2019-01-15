@@ -31,18 +31,17 @@ export default class BifDefinitionProvider implements vscode.DefinitionProvider 
         let data = document.getText();
         if (data) {
             let line = this.helper.readLines(data)[position.line];
-            let word = this.helper.getGuidAtPosition(line, position.character);
+            let guid = this.helper.getGuidAtPosition(line, position.character);
 
-            if (word !== "") {
+            if (this.helper.checkGuidValidity(guid)) {
                 let bifSourcePath = this.helper.getBIFSourcePath();
-                if (this.helper.checkGuidValidity(word)) {
-                    let folders = this.helper.getAllFoldersInBIFSource(bifSourcePath, []);
-                    let files = this.helper.getBIFFiles(folders);
-                    return this.getFileWithGuidReference(files, word);
-                }
-                else {
-                    return this.getPositionWithWordReference(data, word, this.client.toOpenedFilePath(document));
-                }
+                let folders = this.helper.getAllFoldersInBIFSource(bifSourcePath, []);
+                let files = this.helper.getBIFFiles(folders);
+                return this.getFileWithGuidReference(files, guid);
+            } 
+            else {
+                let word = document.getText(document.getWordRangeAtPosition(position));
+                return this.getPositionWithWordReference(data, word, this.client.toOpenedFilePath(document));
             }
         }
     }
