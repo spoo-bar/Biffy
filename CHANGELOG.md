@@ -6,6 +6,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ##1.5.1
 ### Changed
 * Showing mapping status and error
+* Generate GUIDs with keyboard shortcut `Ctrl + Alt + G`
 
 ## 1.5
 ### Changed
