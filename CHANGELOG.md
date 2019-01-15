@@ -3,6 +3,10 @@ All notable changes to the "Biffy" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+##1.5.1
+### Changed
+* Showing mapping status and error
+
 ## 1.5
 ### Changed
 * Support for Find All References and Go to Definition for non GUID texts

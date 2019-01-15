@@ -6,6 +6,7 @@ import BifReferenceProvider from './features/BifReferenceProvider'
 import TypeScriptServiceClient from './typeScriptServiceClient'
 import BifDocumentFormatter from './features/BifDocumentFormatter';
 import BifMapObject from './features/BifMapObject';
+import BifGenerateGuid from './features/BifGenerateGuid';
 
 export function activate(context: vscode.ExtensionContext): void {
 
@@ -45,6 +46,15 @@ export function activate(context: vscode.ExtensionContext): void {
                 vscode.window.showErrorMessage(err);
             });
             
+        }
+    });
+
+    //Generate GUID
+    vscode.commands.registerCommand('biffy.generateGuid', async () => {
+        if(vscode.window.activeTextEditor) {
+            const bifGenerateGuid = new BifGenerateGuid();
+            const guid = bifGenerateGuid.getGuid();
+            vscode.window.activeTextEditor.insertSnippet(new vscode.SnippetString(guid));
         }
     });
 }

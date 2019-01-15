@@ -65,13 +65,13 @@
                         "scope": "application"
                     },
                     "conf.biffy.mapperBinPath": {
-                        "type":"string",
+                        "type": "string",
                         "default": "C:\\Code\\Git\\Katipo\\SI.ProArcMapper\\bin\\Debug",
                         "description": "The bin path to SI.ProArcMapper",
                         "scope": "application"
                     },
                     "conf.biffy.mappedViewColumn": {
-                        "type":"string",
+                        "type": "string",
                         "enum": [
                             "Active",
                             "Beside"
@@ -87,18 +87,27 @@
             {
                 "command": "biffy.mapObject",
                 "title": "Generate Merged Preview"
+            },
+            {
+                "command": "biffy.generateGuid",
+                "title": "Generate GUID"
             }
         ],
         "keybindings": [
             {
                 "command": "biffy.mapObject",
                 "key": "ctrl+m"
+            },
+            {
+                "command": "biffy.generateGuid",
+                "key": "ctrl+alt+g"
             }
         ]
     },
     "dependencies": {
         "@types/node": "^10.12.18",
         "node-powershell": "^3.3.1",
+        "uuid": "^3.3.2",
         "vkbeautify": "^0.99.3",
         "vscode": "^1.1.26"
     }
