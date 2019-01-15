@@ -33,6 +33,7 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand('biffy.mapObject', async () => {
         if (vscode.window.activeTextEditor) {
             const bifMapObject = new BifMapObject();
+            vscode.window.setStatusBarMessage("Mapping " + bifMapObject.getFileName(vscode.window.activeTextEditor.document), 2000);            
             bifMapObject.getMappedObject(vscode.window.activeTextEditor.document).then(out => {
                 if(out) {
                     const document = vscode.workspace.openTextDocument({ language: "bif", content: out});
@@ -41,7 +42,7 @@ export function activate(context: vscode.ExtensionContext): void {
                     })
                 };
             }).catch(err => {
-                console.log(err);
+                vscode.window.showErrorMessage(err);
             });
             
         }

@@ -17,7 +17,7 @@ export default class BifMapObject {
 
     public async getMappedObject(currentDocument: vscode.TextDocument): Promise<string> {
         
-        const fileName = path.basename(currentDocument.fileName);
+        const fileName = this.getFileName(currentDocument);
         const objectId = this.getObjectGuid(fileName);
         if (objectId) {
             return this.helper.runMappingOnObject(this.assemblyPath, this.bifSourcePath, objectId);
@@ -27,6 +27,10 @@ export default class BifMapObject {
 
     public getMappedViewColumn(): vscode.ViewColumn {
         return this.helper.getViewColumn();
+    }
+
+    public getFileName(document : vscode.TextDocument) : string {
+        return path.basename(document.fileName);
     }
 
     private getObjectGuid(fileName: string): string {
