@@ -31,30 +31,26 @@ export function activate(context: vscode.ExtensionContext): void {
     ));
 
     //Fetch mapped object
+    const bifMapObject = new BifMapObject(new TypeScriptServiceClient());
     vscode.commands.registerCommand('biffy.mapObject', async () => {
         if (vscode.window.activeTextEditor) {
-            const bifMapObject = new BifMapObject();
-            vscode.window.setStatusBarMessage("Mapping " + bifMapObject.getFileName(vscode.window.activeTextEditor.document), 2000);            
+            const fileName = bifMapObject.getFileName(vscode.window.activeTextEditor.document);
+            vscode.window.setStatusBarMessage("Mapping " + fileName, 2000);
             bifMapObject.getMappedObject(vscode.window.activeTextEditor.document).then(out => {
-                if(out) {
-                    const document = vscode.workspace.openTextDocument({ language: "bif", content: out});
-                    document.then(doc => {
-                        vscode.window.showTextDocument(doc, bifMapObject.getMappedViewColumn(), false);
-                    })
-                };
             }).catch(err => {
                 vscode.window.showErrorMessage(err);
             });
-            
+
         }
     });
 
     //Generate GUID
     vscode.commands.registerCommand('biffy.generateGuid', async () => {
-        if(vscode.window.activeTextEditor) {
+        if (vscode.window.activeTextEditor) {
             const bifGenerateGuid = new BifGenerateGuid();
             const guid = bifGenerateGuid.getGuid();
             vscode.window.activeTextEditor.insertSnippet(new vscode.SnippetString(guid));
         }
     });
+    
 }
