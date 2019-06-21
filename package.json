@@ -108,7 +108,9 @@
         "@types/node": "^10.12.18",
         "node-powershell": "^3.3.1",
         "uuid": "^3.3.2",
-        "vkbeautify": "^0.99.3",
+        "vkbeautify": "^0.99.3"
+    },
+    "devDependencies": {
         "vscode": "^1.1.26"
     }
 }
