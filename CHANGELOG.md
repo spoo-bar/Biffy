@@ -3,6 +3,10 @@ All notable changes to the "Biffy" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 1.6.0
+### Added
+* Command to open a mapped file based on the GUID
+
 ## 1.5.2
 ### Changed
 * Running mapping on a bxml page, now saves and updates the corresponding content in the BIF-Source/mapped folder.

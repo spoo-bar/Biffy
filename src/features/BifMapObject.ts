@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
-import * as path from 'path'
+import * as path from 'path';
+import * as fs from 'fs';
 import Helper from '../utils/helper';
 import { ITypeScriptServiceClient } from '../ITypeScriptServiceClient';
 
@@ -52,6 +53,30 @@ export default class BifMapObject {
 
     public getFileName(document: vscode.TextDocument): string {
         return path.basename(document.fileName);
+    }
+
+    public openMappedFile(mappedId : string) {
+        if(this.helper.checkGuidValidity(mappedId)) {
+            var mappedFolderPath = path.join(this.bifSourcePath, "mapped");
+            if(fs.existsSync(mappedFolderPath)) {
+                let file = fs.readdirSync(mappedFolderPath).filter(file => fs.statSync(path.join(mappedFolderPath, file)).isFile()).find(file => file.startsWith(mappedId));
+                if(file) {
+                    var filePath = path.join(mappedFolderPath, file);
+                    vscode.workspace.openTextDocument(vscode.Uri.file(filePath)).then(document => {
+                        vscode.window.showTextDocument(document).then();
+                    });
+                }
+                else {
+                    vscode.window.showErrorMessage("File not found in mapped folder : " + mappedId + ".bxml");
+                }
+            }
+            else {
+                vscode.window.showErrorMessage("Mapped folder doesn't exist at " + mappedFolderPath);
+            }
+        }
+        else {
+            vscode.window.showErrorMessage("Input wasnt a valid guid");
+        }
     }
 
     private isBXMLFile(mappedFileName) : boolean {

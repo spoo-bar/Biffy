@@ -3,7 +3,7 @@
     "displayName": "Biffy",
     "description": "Language tools for BIF",
     "publisher": "spoorthi",
-    "version": "1.5.3",
+    "version": "1.6.0",
     "license": "SEE LICENSE IN LICENSE",
     "engines": {
         "vscode": "^1.30.0"
@@ -22,7 +22,8 @@
     },
     "activationEvents": [
         "onLanguage:bif",
-        "onCommand:biffy.mapObject"
+        "onCommand:biffy.mapObject",
+        "onCommand:biffy.openMappedFile"
     ],
     "main": "./out/src/extension",
     "icon": "images/icon.png",
@@ -86,11 +87,15 @@
         "commands": [
             {
                 "command": "biffy.mapObject",
-                "title": "Generate Merged Preview"
+                "title": "Biffy : Generate Merged Preview"
             },
             {
                 "command": "biffy.generateGuid",
-                "title": "Generate GUID"
+                "title": "Biffy : Generate GUID"
+            },
+            {
+                "command": "biffy.openMappedFile",
+                "title": "Biffy : Open Mapped File"
             }
         ],
         "keybindings": [

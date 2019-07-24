@@ -52,5 +52,11 @@ export function activate(context: vscode.ExtensionContext): void {
             vscode.window.activeTextEditor.insertSnippet(new vscode.SnippetString(guid));
         }
     });
+
+    vscode.commands.registerCommand('biffy.openMappedFile', async () => {
+        vscode.window.showInputBox({ prompt : "Which mapped file to open ?" }).then(value => {
+            bifMapObject.openMappedFile(value);
+        });
+    });
     
 }

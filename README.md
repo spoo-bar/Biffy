@@ -17,6 +17,7 @@ This is the repository for VS Code extension for BIF.
 * Syntax highlighting 
 * Block commenting (`Ctrl + K + C` and `Ctrl + K + U`)
 * Snippet completion
+* Open premapped bxml view based in GUID
 
 
 ## Configuration
