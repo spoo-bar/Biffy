@@ -3,6 +3,13 @@ All notable changes to the "Biffy" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## Unreleased
+### Added
+* Icon in title menu and option in context menu to map a bxml file
+
+### Changed
+* Option to map a file only appears in a bxml file.
+
 ## 1.6.0
 ### Added
 * Command to open a mapped file based on the GUID

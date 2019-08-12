@@ -87,11 +87,17 @@
         "commands": [
             {
                 "command": "biffy.mapObject",
-                "title": "Biffy : Generate Merged Preview"
+                "title": "Map the BXML file",
+                "enablement": "resourceExtname == .bxml",
+                "icon": {
+                    "light": "images/map-light.svg",
+                    "dark": "images/map-dark.svg"
+                }
             },
             {
                 "command": "biffy.generateGuid",
-                "title": "Biffy : Generate GUID"
+                "title": "Biffy : Generate GUID",
+                "enablement": "editorLangId == bif"
             },
             {
                 "command": "biffy.openMappedFile",
@@ -107,7 +113,23 @@
                 "command": "biffy.generateGuid",
                 "key": "ctrl+alt+g"
             }
-        ]
+        ],
+        "menus": {
+            "editor/title": [
+                {
+                    "when": "resourceExtname == .bxml",
+                    "command": "biffy.mapObject",
+                    "group": "navigation"
+                }
+            ],
+            "editor/context": [
+                {
+                    "when": "resourceExtname == .bxml",
+                    "command": "biffy.mapObject",
+                    "group": "2_workspace"
+                }
+            ]
+        }
     },
     "dependencies": {
         "@types/node": "^10.12.18",
