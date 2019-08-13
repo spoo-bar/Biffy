@@ -3,7 +3,7 @@ All notable changes to the "Biffy" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## Unreleased
+## 1.6.1
 ### Added
 * Icon in title menu and option in context menu to map a bxml file
 
