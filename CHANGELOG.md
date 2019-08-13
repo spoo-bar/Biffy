@@ -4,6 +4,14 @@ All notable changes to the "Biffy" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 1.7.0
+
+### Added
+
+* Mapping for beml files will map all the bxml files which refer it.
+* Setting to ignore collaboration folder when finding references and mapping.
+* Setting to map beml files recursively.
+
 ## 1.6.1
 
 ### Added
@@ -48,7 +56,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## 1.4.0
 
-### Added 
+### Added
 
 * Added command(`Ctrl + M`) to dynamically generate and fetch mapped file for current bif view
 

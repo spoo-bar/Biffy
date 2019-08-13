@@ -3,7 +3,7 @@
     "displayName": "Biffy",
     "description": "Language tools for BIF",
     "publisher": "spoorthi",
-    "version": "1.6.1",
+    "version": "1.7.0",
     "license": "SEE LICENSE IN LICENSE",
     "engines": {
         "vscode": "^1.30.0"
@@ -80,6 +80,18 @@
                         "default": "Beside",
                         "description": "The column to open mapped bif view in.",
                         "scope": "application"
+                    },
+                    "conf.biffy.ignoreCollaboration": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Ignore Collaboration BIF files in workspace",
+                        "scope": "application"
+                    },
+                    "conf.biffy.performRecursiveMapping": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Perform recursive mapping on all references when mapping a BEML file. Note : This could cause vscode to crash if the dependencies are too many. USE AT YOUR OWN RISK",
+                        "scope": "application"
                     }
                 }
             }
@@ -89,6 +101,15 @@
                 "command": "biffy.mapObject",
                 "title": "Map the BXML file",
                 "enablement": "resourceExtname == .bxml",
+                "icon": {
+                    "light": "images/map-light.svg",
+                    "dark": "images/map-dark.svg"
+                }
+            },
+            {
+                "command": "biffy.mapReferenceObjects",
+                "title": "Map the BEML file",
+                "enablement": "resourceExtname == .beml",
                 "icon": {
                     "light": "images/map-light.svg",
                     "dark": "images/map-dark.svg"
@@ -110,6 +131,10 @@
                 "key": "ctrl+m"
             },
             {
+                "command": "biffy.mapReferenceObjects",
+                "key": "ctrl+m"
+            },
+            {
                 "command": "biffy.generateGuid",
                 "key": "ctrl+alt+g"
             }
@@ -120,12 +145,22 @@
                     "when": "resourceExtname == .bxml",
                     "command": "biffy.mapObject",
                     "group": "navigation"
+                },
+                {
+                    "when": "resourceExtname == .beml",
+                    "command": "biffy.mapReferenceObjects",
+                    "group": "navigation"
                 }
             ],
             "editor/context": [
                 {
                     "when": "resourceExtname == .bxml",
                     "command": "biffy.mapObject",
+                    "group": "2_workspace"
+                },
+                {
+                    "when": "resourceExtname == .beml",
+                    "command": "biffy.mapReferenceObjects",
                     "group": "2_workspace"
                 }
             ]

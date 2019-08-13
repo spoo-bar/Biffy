@@ -35,13 +35,20 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand('biffy.mapObject', async () => {
         if (vscode.window.activeTextEditor) {
             const fileName = bifMapObject.getFileName(vscode.window.activeTextEditor.document);
-            vscode.window.setStatusBarMessage("Mapping " + fileName, 2000);
+            vscode.window.setStatusBarMessage("Mapping " + fileName, 3000);
             bifMapObject.getMappedObject(vscode.window.activeTextEditor.document).then(out => {
             }).catch(err => {
                 vscode.window.showErrorMessage(err);
             });
 
         }
+    });
+
+    //Map a beml file
+    vscode.commands.registerCommand('biffy.mapReferenceObjects', async() => {
+        const fileName = bifMapObject.getFileName(vscode.window.activeTextEditor.document);
+            vscode.window.setStatusBarMessage("Mapping " + fileName, 3000);
+            bifMapObject.mapReferenceFiles(vscode.window.activeTextEditor.document)
     });
 
     //Generate GUID

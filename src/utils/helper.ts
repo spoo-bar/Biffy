@@ -62,6 +62,16 @@ export default class Helper {
         return bifSourcePath.toString();
     }
 
+    public ignoreCollaboration(): boolean {
+        let ignoreCollaborationSetting = vscode.workspace.getConfiguration().get("conf.biffy.ignoreCollaboration");
+        return (ignoreCollaborationSetting === true);
+    }
+
+    public performRecursiveMapping(): boolean {
+        let performRecursiveMappingSetting = vscode.workspace.getConfiguration().get("conf.biffy.performRecursiveMapping");
+        return (performRecursiveMappingSetting === true);
+    }
+
     public getMapperBinPath(): string {
         let binPath = vscode.workspace.getConfiguration().get("conf.biffy.mapperBinPath");
         if (!binPath || binPath.toString().length == 0) {
@@ -84,7 +94,10 @@ export default class Helper {
 
     public getAllFoldersInBIFSource(dir: string, folderList: string[]) {
         let folders: string[] = fs.readdirSync(dir).filter(file => fs.statSync(path.join(dir, file)).isDirectory());
-        folders.forEach(folder => {
+        if(this.ignoreCollaboration()) {
+            folders = folders.filter(f => f.toLowerCase() !== 'collaboration');
+        }
+        folders.forEach(folder => {            
             if (!folder.startsWith(".")) {
                 folderList.push(path.join(dir, folder));
                 return this.getAllFoldersInBIFSource(path.join(dir, folder), folderList);
