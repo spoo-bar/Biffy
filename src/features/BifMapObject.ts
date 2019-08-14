@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import Helper from '../utils/helper';
 import { ITypeScriptServiceClient } from '../ITypeScriptServiceClient';
+import { Global } from '../utils/global';
 
 
 export default class BifMapObject {
@@ -42,7 +43,7 @@ export default class BifMapObject {
                     if (filePath.toUpperCase() !== reference.toUpperCase()) {
                         const bxmlGuid = this.getObjectGuidFromFileName(reference);
                         this.runMappingOnObject(bxmlGuid, false);
-                        vscode.window.showInformationMessage("Mapped " + path.basename(reference));
+                        Global.bifOutputChannel.appendLine("Finished mapping " + path.basename(reference));
                     }
                 }
             }
@@ -53,7 +54,7 @@ export default class BifMapObject {
             if (this.helper.performRecursiveMapping()) {
                 for (let reference of referenceFiles.filter(r => path.extname(r) === '.beml')) {
                     if (filePath.toUpperCase() !== reference.toUpperCase()) {
-                        vscode.window.showInformationMessage("Mapping references of " + path.basename(reference));
+                        Global.bifOutputChannel.appendLine("Mapping references of " + path.basename(reference));
                         this.mapBemlFiles(reference);
                     }
                 }
@@ -107,7 +108,7 @@ export default class BifMapObject {
                                 let edit = new vscode.WorkspaceEdit();
                                 edit.insert(this.client.toResource(mappedFileName, doc), new vscode.Position(0, 0), mappedText);
                                 vscode.workspace.applyEdit(edit).then((success) => {
-                                    vscode.window.showInformationMessage("Successfully mapped " + path.basename(mappedFileName));
+                                    Global.bifOutputChannel.appendLine("Successfully mapped " + path.basename(mappedFileName));
                                     vscode.window.showTextDocument(doc, this.getMappedViewColumn(), false);
                                 });
                             });

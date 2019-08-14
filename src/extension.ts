@@ -7,6 +7,7 @@ import TypeScriptServiceClient from './typeScriptServiceClient'
 import BifDocumentFormatter from './features/BifDocumentFormatter';
 import BifMapObject from './features/BifMapObject';
 import BifGenerateGuid from './features/BifGenerateGuid';
+import { Global } from "./utils/global";
 
 export function activate(context: vscode.ExtensionContext): void {
 
@@ -35,7 +36,7 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand('biffy.mapObject', async () => {
         if (vscode.window.activeTextEditor) {
             const fileName = bifMapObject.getFileName(vscode.window.activeTextEditor.document);
-            vscode.window.setStatusBarMessage("Mapping " + fileName, 3000);
+            Global.bifOutputChannel.appendLine("Mapping " + fileName);
             bifMapObject.getMappedObject(vscode.window.activeTextEditor.document).then(out => {
             }).catch(err => {
                 vscode.window.showErrorMessage(err);
@@ -45,10 +46,10 @@ export function activate(context: vscode.ExtensionContext): void {
     });
 
     //Map a beml file
-    vscode.commands.registerCommand('biffy.mapReferenceObjects', async() => {
+    vscode.commands.registerCommand('biffy.mapReferenceObjects', async () => {
         const fileName = bifMapObject.getFileName(vscode.window.activeTextEditor.document);
-            vscode.window.setStatusBarMessage("Mapping " + fileName, 3000);
-            bifMapObject.mapReferenceFiles(vscode.window.activeTextEditor.document)
+        Global.bifOutputChannel.appendLine("Mapping " + fileName);
+        bifMapObject.mapReferenceFiles(vscode.window.activeTextEditor.document)
     });
 
     //Generate GUID
@@ -61,9 +62,11 @@ export function activate(context: vscode.ExtensionContext): void {
     });
 
     vscode.commands.registerCommand('biffy.openMappedFile', async () => {
-        vscode.window.showInputBox({ prompt : "Which mapped file to open ?" }).then(value => {
+        vscode.window.showInputBox({ prompt: "Which mapped file to open ?" }).then(value => {
             bifMapObject.openMappedFile(value);
         });
     });
-    
+
+    Global.bifOutputChannel = vscode.window.createOutputChannel('BIF');
+    Global.bifOutputChannel.show();
 }
