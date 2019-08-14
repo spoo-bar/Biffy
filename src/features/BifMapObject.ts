@@ -22,12 +22,12 @@ export default class BifMapObject {
         this.mapBemlFiles(fileName);
     }
 
-    public async getMappedObject(currentDocument: vscode.TextDocument) {
+    public async getMappedObject(currentDocument: vscode.TextDocument, showMappedFile: boolean) {
 
         const fileName = this.getFileName(currentDocument);
         const objectId = this.getObjectGuidFromFileName(fileName);
         if (objectId) {
-            this.runMappingOnObject(objectId, true);
+            this.runMappingOnObject(objectId, showMappedFile);
         }
         return null;
     }

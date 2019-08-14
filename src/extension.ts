@@ -7,6 +7,8 @@ import TypeScriptServiceClient from './typeScriptServiceClient'
 import BifDocumentFormatter from './features/BifDocumentFormatter';
 import BifMapObject from './features/BifMapObject';
 import BifGenerateGuid from './features/BifGenerateGuid';
+import * as path from 'path';
+import Helper from './utils/helper';
 
 export function activate(context: vscode.ExtensionContext): void {
 
@@ -32,11 +34,12 @@ export function activate(context: vscode.ExtensionContext): void {
 
     //Fetch mapped object
     const bifMapObject = new BifMapObject(new TypeScriptServiceClient());
+    const helper = new Helper();
     vscode.commands.registerCommand('biffy.mapObject', async () => {
         if (vscode.window.activeTextEditor) {
             const fileName = bifMapObject.getFileName(vscode.window.activeTextEditor.document);
             vscode.window.setStatusBarMessage("Mapping " + fileName, 3000);
-            bifMapObject.getMappedObject(vscode.window.activeTextEditor.document).then(out => {
+            bifMapObject.getMappedObject(vscode.window.activeTextEditor.document, true).then(out => {
             }).catch(err => {
                 vscode.window.showErrorMessage(err);
             });
@@ -45,10 +48,10 @@ export function activate(context: vscode.ExtensionContext): void {
     });
 
     //Map a beml file
-    vscode.commands.registerCommand('biffy.mapReferenceObjects', async() => {
+    vscode.commands.registerCommand('biffy.mapReferenceObjects', async () => {
         const fileName = bifMapObject.getFileName(vscode.window.activeTextEditor.document);
-            vscode.window.setStatusBarMessage("Mapping " + fileName, 3000);
-            bifMapObject.mapReferenceFiles(vscode.window.activeTextEditor.document)
+        vscode.window.setStatusBarMessage("Mapping " + fileName, 3000);
+        bifMapObject.mapReferenceFiles(vscode.window.activeTextEditor.document)
     });
 
     //Generate GUID
@@ -61,9 +64,21 @@ export function activate(context: vscode.ExtensionContext): void {
     });
 
     vscode.commands.registerCommand('biffy.openMappedFile', async () => {
-        vscode.window.showInputBox({ prompt : "Which mapped file to open ?" }).then(value => {
+        vscode.window.showInputBox({ prompt: "Which mapped file to open ?" }).then(value => {
             bifMapObject.openMappedFile(value);
         });
     });
-    
+
+    vscode.workspace.onDidSaveTextDocument((textDocument) => {
+        if (helper.autoMappingOnSave()) {
+            if (textDocument.languageId == "bif") {
+                const fileName = bifMapObject.getFileName(textDocument);
+                vscode.window.setStatusBarMessage("Mapping " + fileName, 3000);
+                    bifMapObject.getMappedObject(vscode.window.activeTextEditor.document, false).then(out => {
+                    }).catch(err => {
+                        vscode.window.showErrorMessage(err);
+                    });
+            }
+        }
+    });
 }

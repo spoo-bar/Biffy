@@ -3,7 +3,7 @@
     "displayName": "Biffy",
     "description": "Language tools for BIF",
     "publisher": "spoorthi",
-    "version": "1.7.0",
+    "version": "1.7.1",
     "license": "SEE LICENSE IN LICENSE",
     "engines": {
         "vscode": "^1.30.0"
@@ -91,6 +91,12 @@
                         "type": "boolean",
                         "default": false,
                         "description": "Perform recursive mapping on all references when mapping a BEML file. Note : This could cause vscode to crash if the dependencies are too many. USE AT YOUR OWN RISK",
+                        "scope": "application"
+                    },
+                    "conf.biffy.autoMapOnSave": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "On saving a bxml/beml file, run mapping on it in the background",
                         "scope": "application"
                     }
                 }

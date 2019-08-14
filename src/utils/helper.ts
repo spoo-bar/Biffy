@@ -72,6 +72,11 @@ export default class Helper {
         return (performRecursiveMappingSetting === true);
     }
 
+    public autoMappingOnSave(): boolean {
+        let autoMappingOnSaveSetting = vscode.workspace.getConfiguration().get("conf.biffy.autoMapOnSave");
+        return (autoMappingOnSaveSetting === true);
+    }
+
     public getMapperBinPath(): string {
         let binPath = vscode.workspace.getConfiguration().get("conf.biffy.mapperBinPath");
         if (!binPath || binPath.toString().length == 0) {
