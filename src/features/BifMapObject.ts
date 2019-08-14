@@ -17,22 +17,22 @@ export default class BifMapObject {
         this.assemblyPath = this.helper.getMapperBinPath();
     }
 
-    public async mapReferenceFiles(currentDocument: vscode.TextDocument) {
+    public async mapReferenceFiles(currentDocument: vscode.TextDocument, outputChannel : vscode.OutputChannel) {
         const fileName = currentDocument.fileName;
-        this.mapBemlFiles(fileName);
+        this.mapBemlFiles(fileName, outputChannel);
     }
 
-    public async getMappedObject(currentDocument: vscode.TextDocument, showMappedFile: boolean) {
+    public async getMappedObject(currentDocument: vscode.TextDocument, showMappedFile: boolean, outputChannel : vscode.OutputChannel) {
 
         const fileName = this.getFileName(currentDocument);
         const objectId = this.getObjectGuidFromFileName(fileName);
         if (objectId) {
-            this.runMappingOnObject(objectId, showMappedFile);
+            this.runMappingOnObject(objectId, showMappedFile, outputChannel);
         }
         return null;
     }
 
-    private mapBemlFiles(filePath: string) {
+    private mapBemlFiles(filePath: string, outputChannel : vscode.OutputChannel) {
         let objectGuid = this.getObjectGuidFromFileName(filePath);
         if (objectGuid) {
             var referenceFiles = this.getReferences(filePath, objectGuid);
@@ -41,20 +41,20 @@ export default class BifMapObject {
                 for (let reference of bxmlReferenceFiles) {
                     if (filePath.toUpperCase() !== reference.toUpperCase()) {
                         const bxmlGuid = this.getObjectGuidFromFileName(reference);
-                        this.runMappingOnObject(bxmlGuid, false);
-                        vscode.window.showInformationMessage("Mapped " + path.basename(reference));
+                        this.runMappingOnObject(bxmlGuid, false, outputChannel);
+                        outputChannel.appendLine("Mapped " + path.basename(reference));
                     }
                 }
             }
             else {
-                vscode.window.showWarningMessage("No bxml files refer to this beml file.");
+                outputChannel.appendLine("No bxml files refer to this beml file.");
             }
 
             if (this.helper.performRecursiveMapping()) {
                 for (let reference of referenceFiles.filter(r => path.extname(r) === '.beml')) {
                     if (filePath.toUpperCase() !== reference.toUpperCase()) {
-                        vscode.window.showInformationMessage("Mapping references of " + path.basename(reference));
-                        this.mapBemlFiles(reference);
+                        outputChannel.appendLine("Mapping references of " + path.basename(reference));
+                        this.mapBemlFiles(reference, outputChannel);
                     }
                 }
             }
@@ -94,7 +94,7 @@ export default class BifMapObject {
         return filesReference;
     }
 
-    private runMappingOnObject(objectId: string, showMappedFile: boolean) {
+    private runMappingOnObject(objectId: string, showMappedFile: boolean, outputChannel : vscode.OutputChannel) {
         this.helper.runMappingOnObject(this.assemblyPath, this.bifSourcePath, objectId)
             .then(mappedText => {
                 if (mappedText) {
@@ -107,15 +107,16 @@ export default class BifMapObject {
                                 let edit = new vscode.WorkspaceEdit();
                                 edit.insert(this.client.toResource(mappedFileName, doc), new vscode.Position(0, 0), mappedText);
                                 vscode.workspace.applyEdit(edit).then((success) => {
-                                    vscode.window.showInformationMessage("Successfully mapped " + path.basename(mappedFileName));
+                                    outputChannel.appendLine("Successfully mapped " + path.basename(mappedFileName));
                                     vscode.window.showTextDocument(doc, this.getMappedViewColumn(), false);
                                 });
                             });
                         }
                     }
                     else {
-                        const filePath = path.join(this.bifSourcePath, 'mapped', objectId + '.xml');
+                        const filePath = path.join(this.bifSourcePath, 'mapped', objectId + '.bxml');
                         fs.writeFileSync(filePath, mappedText);
+                        outputChannel.appendLine("Successfully mapped " + path.basename(path.basename(filePath)));
                     }
                 }
             });

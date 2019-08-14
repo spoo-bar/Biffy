@@ -62,6 +62,12 @@ export default class Helper {
         return bifSourcePath.toString();
     }
 
+    public getConsoleOutputChannel(): vscode.OutputChannel {
+        const bifOutputChannel = vscode.window.createOutputChannel('BIF');
+        bifOutputChannel.show();
+        return bifOutputChannel;
+    }
+
     public ignoreCollaboration(): boolean {
         let ignoreCollaborationSetting = vscode.workspace.getConfiguration().get("conf.biffy.ignoreCollaboration");
         return (ignoreCollaborationSetting === true);

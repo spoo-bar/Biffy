@@ -38,8 +38,9 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand('biffy.mapObject', async () => {
         if (vscode.window.activeTextEditor) {
             const fileName = bifMapObject.getFileName(vscode.window.activeTextEditor.document);
-            vscode.window.setStatusBarMessage("Mapping " + fileName, 3000);
-            bifMapObject.getMappedObject(vscode.window.activeTextEditor.document, true).then(out => {
+            let outputChannel = helper.getConsoleOutputChannel();
+            outputChannel.appendLine("Started mapping - " + fileName);
+            bifMapObject.getMappedObject(vscode.window.activeTextEditor.document, true, outputChannel).then(out => {
             }).catch(err => {
                 vscode.window.showErrorMessage(err);
             });
@@ -50,8 +51,10 @@ export function activate(context: vscode.ExtensionContext): void {
     //Map a beml file
     vscode.commands.registerCommand('biffy.mapReferenceObjects', async () => {
         const fileName = bifMapObject.getFileName(vscode.window.activeTextEditor.document);
-        vscode.window.setStatusBarMessage("Mapping " + fileName, 3000);
-        bifMapObject.mapReferenceFiles(vscode.window.activeTextEditor.document)
+        let outputChannel = helper.getConsoleOutputChannel();
+        outputChannel.appendLine("Started mapping - " + fileName);
+        outputChannel.show();
+        bifMapObject.mapReferenceFiles(vscode.window.activeTextEditor.document, outputChannel)
     });
 
     //Generate GUID
@@ -72,12 +75,11 @@ export function activate(context: vscode.ExtensionContext): void {
     vscode.workspace.onDidSaveTextDocument((textDocument) => {
         if (helper.autoMappingOnSave()) {
             if (textDocument.languageId == "bif") {
-                const fileName = bifMapObject.getFileName(textDocument);
-                vscode.window.setStatusBarMessage("Mapping " + fileName, 3000);
-                    bifMapObject.getMappedObject(vscode.window.activeTextEditor.document, false).then(out => {
-                    }).catch(err => {
-                        vscode.window.showErrorMessage(err);
-                    });
+                let outputChannel = helper.getConsoleOutputChannel();
+                bifMapObject.getMappedObject(vscode.window.activeTextEditor.document, false, outputChannel).then(out => {
+                }).catch(err => {
+                    vscode.window.showErrorMessage(err);
+                });
             }
         }
     });
