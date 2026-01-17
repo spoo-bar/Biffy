@@ -179,6 +179,6 @@
         "vkbeautify": "^0.99.3"
     },
     "devDependencies": {
-        "vscode": "^1.1.26"
+        "vscode": "^1.1.37"
     }
 }
